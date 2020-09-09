@@ -1,2 +1,2 @@
 # AspNetCoreTemplate
-基于ddd+六边形架构
+## 使用六边形架构+DDD+Core搭建项目模板
