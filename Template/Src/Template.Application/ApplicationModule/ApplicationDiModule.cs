@@ -1,25 +1,18 @@
-﻿using System.Linq;
-using Autofac;
+﻿using Core.Modularity;
+using Core.Modularity.Attribute;
+using Microsoft.Extensions.DependencyInjection;
+using Template.Adapter.AdapterModule;
 
 namespace Template.Application.ApplicationModule
 {
-    public class ApplicationDiModule : ModularInjection.DiModule
+    [DependsOn(typeof(AdapterDiModule))]
+    public class ApplicationDiModule : CoreModuleBase
     {
-        public override void PreInitialize()
+        public override void ConfigureServices(ServiceCollectionContext context)
         {
-        }
-
-        public override void Initialize()
-        {
-            var assembly = this.GetType().Assembly;
-            ContainerBuilder.RegisterAssemblyTypes(assembly)
-                .PublicOnly()
-                .Where(t => t.Name.EndsWith("UserCase"))
-                .InstancePerLifetimeScope();
-        }
-
-        public override void PostInitialize()
-        {
+            context.Services.AddScoped<OrderService>();
+            context.Services.AddScoped<ProductService>();
+            context.Services.AddScoped<PaymentService>();
         }
     }
 }
